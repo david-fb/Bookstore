@@ -50,7 +50,7 @@
     filter: drop-shadow(0 0 0.75rem rgba(249, 193, 108, 0.8));
 }
  
-.button {
+.hero__actions-buyBtn {
     background-color: #f9c16c;
     color: #fff;
     padding: 0.5rem 1rem;

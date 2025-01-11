@@ -12,7 +12,7 @@
           src="@assets/imgs/book2.webp"
         >
       </figure>
-      <button class="hero__actions-buy">
+      <button class="hero__actions-buyBtn">
         Compra ahora
       </button>
     </div>
