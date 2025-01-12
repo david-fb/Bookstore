@@ -1,3 +1,6 @@
 <template>
-  <BsHero />
+  <div>
+    <BsHero />
+    <BsProductList />
+  </div>
 </template>
