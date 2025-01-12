@@ -1,6 +1,11 @@
 @import 'Hero.css';
 @import 'ProductCard.css';
 @import 'ProductList.css';
+@import 'Checkout.css';
+@import 'CheckoutProductCard.css';
+@import 'CheckoutProductList.css';
+@import 'DeliveryInfo.css';
+@import 'PaymentInfo.css';
 
 * {
     min-width: 0;
@@ -23,6 +28,7 @@ body {
     min-height: 100dvh;
     background-color: var(--base-100);
     font-family: var(--primary-font);
+    color: var(--primary-100);;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -31,4 +37,21 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
     text-wrap: pretty;
+}
+
+label {
+    font-size: var(--sm);
+    font-weight: 500;
+}
+
+input {
+    padding: .5rem;
+    border-radius: .5rem;
+    border: 1px solid var(--base-300);
+    margin-bottom: 1rem;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-200);
 }

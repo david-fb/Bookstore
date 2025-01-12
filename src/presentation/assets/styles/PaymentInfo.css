@@ -1,0 +1,78 @@
+.Checkout__payment {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.Checkout__payment input {
+    width: 100%;
+}
+
+.Checkout__payment__form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--base-200);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.Checkout__payment__card {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: var(--light);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--base-300);
+    border-radius: .5rem;
+}
+
+.Checkout__payment__card:focus-within {
+    border-color: var(--primary-100);
+}
+
+.Checkout__payment__card input {
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin: 0;
+}
+
+.Checkout__payment__card div {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.Checkout__payment__card__info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.Checkout__payment__card__info-date {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.Checkout__payment__card__info-date select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--base-300);
+    background-color: var(--base-100);
+    outline: none;
+}
+
+.Checkout__payment__card__info-date select:focus {
+    outline: none;
+    border-color: var(--primary-100);
+}
+
+.Checkout__payment__card__info-date div {
+    display: flex;
+    gap: .5rem;
+}

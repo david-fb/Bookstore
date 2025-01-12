@@ -1,0 +1,21 @@
+.Checkout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+  
+.Checkout__title {
+    font-size: var(--title-sm);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.Checkout__submit {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--accent-300);
+    color: var(--light);
+    font-weight: 700;
+}

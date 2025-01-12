@@ -1,0 +1,51 @@
+.Checkout__shipping {
+    margin-top: 2rem;
+}
+
+.Checkout__shippingForm {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--base-200);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.Checkout__shippingForm input {
+    padding: .5rem;
+    margin-bottom: 1rem;
+}
+
+.Checkout__shippingForm button {
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    background-color: var(--primary-300);
+    color: var(--light);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.Checkout__shippingInfo {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--base-200);
+    padding: 1rem;
+    font-size: var(--sm);
+}
+
+.Checkout__shippingInfo span {
+    font-weight: 500;   
+}
+
+.Checkout__shippingInfoEdit {
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    background-color: var(--primary-300);
+    color: var(--light);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+}
