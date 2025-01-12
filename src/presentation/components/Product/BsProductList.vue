@@ -44,26 +44,3 @@ const products = ref([
   },
 ]);
 </script>
-
-<style>
-.productList {
-  padding: 1rem;
-  width: 100%;
-  margin-top: 100px;
-  background-color: var(--base-200);
-}
-.productList__list {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1200px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(max(200px, calc((100% - 32px) / 4)), 1fr));
-  gap: 8px;
-}
-.productList__item {
-  display: flex;
-  justify-content: center;
-}
-</style>
