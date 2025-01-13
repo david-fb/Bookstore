@@ -12,9 +12,19 @@
           src="@assets/imgs/book2.webp"
         >
       </figure>
-      <button class="hero__actions-buyBtn">
+      <button
+        class="hero__actions-buyBtn"
+        @click="moveToProductList"
+      >
         Compra ahora
       </button>
     </div>
   </div>
 </template>
+
+<script setup>
+const moveToProductList = () => {
+  const productList = document.getElementById('product-list');
+  productList.scrollIntoView({ behavior: 'smooth' });
+};
+</script>

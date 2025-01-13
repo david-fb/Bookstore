@@ -1,9 +1,9 @@
 .checkoutProductList {
     width: 100%;
-    padding: .5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 .checkoutProductList__list {
     width: 100%;

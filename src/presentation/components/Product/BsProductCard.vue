@@ -32,6 +32,7 @@
       <button
         class="ProductCard-btn ProductCard__actions-payBtn"
         aria-label="Comprar ahora"
+        @click="toggleBackdrop"
       >
         Comprar
       </button>
@@ -48,13 +49,17 @@
   </article>
 </template>
 
-<script>
-export default {
-  props: {
-    product: {
-      type: Object,
-      required: true,
-    },
+<script setup>
+import { useStore } from 'vuex';
+
+defineProps({
+  product: {
+    type: Object,
+    required: true,
   },
-};
+});
+
+const store = useStore();
+
+const toggleBackdrop = () => store.dispatch('backdrop/toggleBackdrop');
 </script>

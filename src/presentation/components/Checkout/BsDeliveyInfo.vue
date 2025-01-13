@@ -54,13 +54,6 @@
         type="email"
         autocomplete="off"
       >
-
-      <button
-        type="button"
-        @click="toogleEdit"
-      >
-        Guardar
-      </button>
     </div>
     <div
       v-else
