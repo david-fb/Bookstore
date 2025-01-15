@@ -4,7 +4,9 @@
       <figure class="ProductCard__figure">
         <img
           class="ProductCard__image"
-          :src="product?.image_url"
+          :src="imageSrc"
+          loading="lazy"
+          @error="handleImageError"
         >
       </figure>
       <h2
@@ -51,8 +53,9 @@
 
 <script setup>
 import { useStore } from 'vuex';
+import fallbackImage from '@assets/imgs/no_image.webp';
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     required: true,
@@ -61,5 +64,11 @@ defineProps({
 
 const store = useStore();
 
+const imageSrc = ref(props.product?.image_url);
+
 const toggleBackdrop = () => store.dispatch('backdrop/toggleBackdrop');
+
+const handleImageError = () => {
+  imageSrc.value = fallbackImage;
+};
 </script>
