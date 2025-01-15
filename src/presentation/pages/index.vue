@@ -4,7 +4,7 @@
       <BsCheckout />
     </BsBackdrop>
     <BsHero />
-    <BsProductList />
+    <BsProductList :products="products" />
   </div>
 </template>
 
@@ -14,12 +14,13 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 const isVisible = computed(() => store.state.backdrop.isVisible);
+const products = computed(() => store.state.product.products);
+
+onMounted(async () => {
+  await store.dispatch('product/fetchProducts');
+});
 
 watch(isVisible, (value) => {
   document.body.classList.toggle('modal-open', value);
 });
 </script>
-
-<style>
-
-</style>
