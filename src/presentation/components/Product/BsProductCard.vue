@@ -4,28 +4,28 @@
       <figure class="ProductCard__figure">
         <img
           class="ProductCard__image"
-          :src="product.image"
+          :src="product?.image_url"
         >
       </figure>
       <h2
         class="ProductCard__title"
-        :title="product.title"
+        :title="product?.title"
       >
-        {{ product.title }}
+        {{ product?.title }}
       </h2>
       <p
         class="ProductCard__description"
-        :title="product.description"
+        :title="product?.description"
       >
-        {{ product.description }}
+        {{ product?.description }}
       </p>
       <p
         class="ProductCard__stock"
       >
-        Uni. Disponibles: {{ product.stock }}
+        Uni. Disponibles: {{ product?.stock }}
       </p>
       <p class="ProductCard__price">
-        {{ formatCurrency(product.price) }}
+        {{ formatCurrency(product?.price) }}
       </p>
     </div>
     <div class="ProductCard__actions">
