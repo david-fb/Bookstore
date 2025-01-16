@@ -26,7 +26,7 @@
       <label for="name_card">Nombre del Titular</label>
       <input
         id="name_card"
-        v-model="nameCard"
+        v-model="paymentInfo.cardholderName"
         type="text"
       >
 
@@ -35,7 +35,7 @@
           <label for="card-month">Fecha de Expiración</label>
           <div>
             <select
-              v-model="cardMonth"
+              v-model="paymentInfo.cardMonth"
               name="card-month"
             >
               <option
@@ -55,7 +55,7 @@
               </option>
             </select>
             <select
-              v-model="cardYear"
+              v-model="paymentInfo.cardYear"
               name="year-month"
             >
               <option
@@ -67,11 +67,11 @@
               </option>
 
               <option
-                v-for="(n, $index) in 12"
-                :key="n"
-                :value="$index + minCardYear"
+                v-for="year in rangeYears"
+                :key="year"
+                :value="year"
               >
-                {{ $index + minCardYear }}
+                {{ year }}
               </option>
             </select>
           </div>
@@ -81,12 +81,36 @@
           <label for="cvv">CVV</label>
           <input
             id="cvv"
-            v-model="cardCVV"
+            v-model="paymentInfo.cvv"
             v-maska="'####'"
             type="text"
             placeholder="CVV"
             maxlength="4"
           >
+        </div>
+
+        <div>
+          <label for="installments">Cuotas</label>
+          <select
+            id="installments"
+            v-model="paymentInfo.installments"
+            name="installments"
+          >
+            <option
+              value=""
+              disabled
+              selected
+            >
+              Seleccione
+            </option>
+            <option
+              v-for="n in 36"
+              :key="n"
+              :value="n"
+            >
+              {{ n }}
+            </option>
+          </select>
         </div>
       </div>
     </div>
@@ -97,17 +121,33 @@
 import { getCardIcon } from '~/utils/getCardIcon';
 import { getCardType } from '~/utils/getCardType';
 
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+});
+
+const paymentInfo = ref({ ...props.data });
+
+const emit = defineEmits(['update-payment-info']);
+
 const cardNumber = ref('');
-const nameCard = ref('');
-const cardMonth = ref('');
-const cardYear = ref('');
-const cardCVV = ref('');
 const cardType = ref('');
 const CardIcon = computed(() => getCardIcon(cardType.value));
 const currentMask = ref('');
 const minCardYear = new Date().getFullYear();
+const lastTwoDigits = Number(minCardYear.toString().slice(-2));
+const rangeYears = Array.from({ length: 12 }, (_, i) => {
+  let year = i + lastTwoDigits;
+  if (year < 10) {
+    year = `0${year}`;
+  }
+  return '' + year;
+});
+
 const minCardMonth = computed(() => {
-  if (cardYear.value === minCardYear) {
+  if (paymentInfo.value.cardYear === minCardYear) {
     return new Date().getMonth() + 1;
   }
 
@@ -122,7 +162,7 @@ const generateCardNumberMask = () => {
     cardType.value = '';
     return maskFormat;
   }
-
+  paymentInfo.value.cardNumber = cardNumber.value.replace(/\s/g, '');
   cardType.value = cardTypeObj.type;
   maskFormat = '';
 
@@ -139,4 +179,8 @@ const generateCardNumberMask = () => {
 onMounted(() => {
   currentMask.value = generateCardNumberMask();
 });
+
+watch(() => paymentInfo, (newData) => {
+  emit('update-payment-info', { ...newData.value });
+}, { deep: true });
 </script>

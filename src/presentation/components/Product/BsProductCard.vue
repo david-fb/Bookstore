@@ -34,7 +34,7 @@
       <button
         class="ProductCard-btn ProductCard__actions-payBtn"
         aria-label="Comprar ahora"
-        @click="toggleBackdrop"
+        @click="handleBuyNow"
       >
         Comprar
       </button>
@@ -67,6 +67,11 @@ const store = useStore();
 const imageSrc = ref(props.product?.image_url);
 
 const toggleBackdrop = () => store.dispatch('backdrop/toggleBackdrop');
+
+const handleBuyNow = () => {
+  store.dispatch('checkout/setItems', [{ ...props.product, quantity: 1 }]);
+  toggleBackdrop();
+};
 
 const handleImageError = () => {
   imageSrc.value = fallbackImage;

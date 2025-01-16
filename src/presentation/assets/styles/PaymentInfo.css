@@ -48,17 +48,11 @@
 
 .Checkout__payment__card__info {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
 }
 
-.Checkout__payment__card__info-date {
-    grid-column: span 2;
-    display: flex;
-    flex-direction: column;
-}
-
-.Checkout__payment__card__info-date select {
+.Checkout__payment__card__info select {
     width: 100%;
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -67,7 +61,7 @@
     outline: none;
 }
 
-.Checkout__payment__card__info-date select:focus {
+.Checkout__payment__card__info select:focus {
     outline: none;
     border-color: var(--primary-100);
 }
@@ -75,4 +69,14 @@
 .Checkout__payment__card__info-date div {
     display: flex;
     gap: .5rem;
+}
+
+.Checkout__payment__card__info-date {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.Checkout__payment__card__info-extra {
+    display: flex;
 }

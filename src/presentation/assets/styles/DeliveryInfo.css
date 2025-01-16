@@ -45,3 +45,21 @@
     cursor: pointer;
     margin-top: 1rem;
 }
+
+.Checkout__shippingForm__document {
+    display: flex;
+    flex-direction: column;
+}
+
+.Checkout__shippingForm__document div {
+    display: flex;
+    gap: 1rem;
+}
+
+.Checkout__shippingForm__document div select {
+    width: fit-content;
+}
+
+.Checkout__shippingForm__document div input {
+    margin: 0;
+}

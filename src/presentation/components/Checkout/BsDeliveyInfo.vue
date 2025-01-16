@@ -4,7 +4,6 @@
       Datos de Envío
     </h2>
     <div
-      v-if="deliveryInfo.edit"
       class="Checkout__shippingForm"
     >
       <label for="name">Nombre:</label>
@@ -42,7 +41,7 @@
       <label for="phone">Teléfono:</label>
       <input
         id="phone"
-        v-model="deliveryInfo.phone"
+        v-model="deliveryInfo.phoneNumber"
         type="text"
         autocomplete="off"
       >
@@ -54,52 +53,51 @@
         type="email"
         autocomplete="off"
       >
-    </div>
-    <div
-      v-else
-      class="Checkout__shippingInfo"
-    >
-      <p>
-        <span>Nombre: </span> {{ deliveryInfo.name }}
-      </p>
-      <p>
-        <span>Dirección: </span> {{ deliveryInfo.address }}
-      </p>
-      <p>
-        <span>Ciudad: </span> {{ deliveryInfo.city }}
-      </p>
-      <p>
-        <span>Departamento: </span> {{ deliveryInfo.department }}
-      </p>
-      <p>
-        <span>Teléfono: </span> {{ deliveryInfo.phone }}
-      </p>
-      <p>
-        <span>Correo Electrónico: </span> {{ deliveryInfo.email }}
-      </p>
-      <button
-        type="button"
-        class="Checkout__shippingInfoEdit"
-        @click="toogleEdit"
-      >
-        Editar
-      </button>
+
+      <div class="Checkout__shippingForm__document">
+        <label for="document">Documento:</label>
+        <div>
+          <select
+            id="documentType"
+            v-model="deliveryInfo.documentType"
+          >
+            <option
+              value="CC"
+              selected
+            >
+              CC
+            </option>
+          </select>
+          <input
+            id="document"
+            v-model="deliveryInfo.documentId"
+            type="text"
+            autocomplete="off"
+            @input="onlyNumbers"
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-const deliveryInfo = ref({
-  name: '',
-  address: '',
-  city: '',
-  department: '',
-  phone: '',
-  email: '',
-  edit: true,
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
 });
 
-const toogleEdit = () => {
-  deliveryInfo.value.edit = !deliveryInfo.value.edit;
+const deliveryInfo = ref({ ...props.data });
+
+const emit = defineEmits(['update-delivery-info']);
+
+const onlyNumbers = (event) => {
+  deliveryInfo.value.documentId = event.target.value.replace(/[^0-9]/g, '');
 };
+
+watch(() => deliveryInfo, (newData) => {
+  emit('update-delivery-info', { ...newData.value });
+}, { deep: true });
 </script>

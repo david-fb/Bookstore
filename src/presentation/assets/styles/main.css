@@ -61,3 +61,22 @@ input:focus {
 .modal-open {
     overflow-y: hidden;
 }
+
+.btn-disabled {
+    cursor: not-allowed;
+    opacity: .5;
+}
+
+select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--base-300);
+    background-color: var(--base-100);
+    outline: none;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary-100);
+}
