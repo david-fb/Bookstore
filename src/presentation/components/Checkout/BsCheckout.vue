@@ -42,6 +42,7 @@
               :class="{ completed_step: currentStep.id >= step.id }"
             >
               <button
+                :disabled="step.disabled"
                 @click="currentStep = step"
               >
                 <span>{{ step.id }}</span> {{ step.title }}
@@ -58,21 +59,26 @@
         </div>
       </Transition>
     </div>
-    <form class="Checkout">
+    <form
+      class="Checkout"
+      @submit="handleSubmit"
+    >
       <div
         v-show="currentStep.id === 1"
         id="summary"
         class="Checkout__section Checkout__summary"
       >
-        <BsCheckoutProductList :products="cart" />
+        <BsCheckoutProductList :products="checkoutData.items" />
         <button
           type="button"
-          class="Checkout__flow__button"
+          class="Checkout__submit"
+          :disabled="checkoutData.items.length === 0"
+          :class="{ 'btn-disabled': checkoutData.items.length === 0 }"
           @click="nextStep"
         >
           Continuar <RightArrowIcon
-            width="24px"
-            height="24px"
+            width="18px"
+            height="18px"
           />
         </button>
       </div>
@@ -82,21 +88,33 @@
         id="delivery"
         class="Checkout__section"
       >
-        <BsDeliveyInfo />
+        <BsDeliveyInfo
+          :data="checkoutData.deliveryInfo"
+          @update-delivery-info="handleUpdateDeliveryInfo"
+        />
         <div class="Checkout__flow">
           <button
             type="button"
             class="Checkout__flow__button"
             @click="prevStep"
           >
-            <LeftArrowIcon />
+            <LeftArrowIcon
+              width="18px"
+              height="18px"
+            /> Atrás
           </button>
           <button
             type="button"
             class="Checkout__flow__button"
+            :disabled="!checkoutData.deliveryInfo.completed"
+            :class="{ 'btn-disabled': !checkoutData.deliveryInfo.completed }"
             @click="nextStep"
           >
-            <RightArrowIcon />
+            Siguiente
+            <RightArrowIcon
+              width="18px"
+              height="18px"
+            />
           </button>
         </div>
       </div>
@@ -106,20 +124,29 @@
         id="payment"
         class="Checkout__section"
       >
-        <BsPaymentInfo />
+        <BsPaymentInfo
+          :data="checkoutData.paymentInfo"
+          @update-payment-info="handleUpdatePaymentInfo"
+        />
         <div class="Checkout__flow">
           <button
             type="button"
             class="Checkout__flow__button"
             @click="prevStep"
           >
-            <LeftArrowIcon />
+            <LeftArrowIcon
+              width="18px"
+              height="18px"
+            /> Atrás
           </button>
-          <input
+          <button
             type="submit"
-            value="Pagar Ahora"
             class="Checkout__submit"
+            :disabled="!checkoutData.paymentInfo.completed"
+            :class="{ 'btn-disabled': !checkoutData.paymentInfo.completed }"
           >
+            Pagar {{ formatCurrency(checkoutData.total) }}
+          </button>
         </div>
       </div>
     </form>
@@ -130,59 +157,46 @@
 import { useStore } from 'vuex';
 
 const store = useStore();
-const toggleBackdrop = () => store.dispatch('backdrop/toggleBackdrop', false);
-const showSteps = ref(false);
-
-const cart = ref([
-  {
-    id: 1,
-    title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in',
-    price: 100,
-    image: 'https://m.media-amazon.com/images/I/9101MLPcFTL._AC_UY247.5_FMwebp_.jpg?aicid=books-design-system-web',
-    stock: 10,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    title: 'Product 2',
-    description: 'Description 2',
-    price: 200,
-    image: 'https://m.media-amazon.com/images/I/9101MLPcFTL._AC_UY247.5_FMwebp_.jpg?aicid=books-design-system-web',
-    stock: 20,
-    quantity: 2,
-  },
-]);
-
-const steps = ref([
-  {
-    id: 1,
-    title: 'Resumen',
-  },
-  {
-    id: 2,
-    title: 'Envío',
-  },
-  {
-    id: 3,
-    title: 'Pago',
-  },
+const checkoutData = computed(() => store.state.checkout.checkout);
+const steps = computed(() => [
+  { id: 1, title: 'Resumen', disabled: false },
+  { id: 2, title: 'Envío', disabled: !checkoutData.value.deliveryInfo.completed || !checkoutData.value.items.length > 0 },
+  { id: 3, title: 'Pago', disabled: !checkoutData.value.paymentInfo.completed || !checkoutData.value.items.length > 0 },
 ]);
 
 const currentStep = ref(steps.value[0]);
+const showSteps = ref(false);
 
 const nextStep = () => {
-  const currentIndex = steps.value.indexOf(currentStep.value);
+  const currentIndex = steps.value.findIndex(step => step.id === currentStep.value.id);
   currentStep.value = steps.value[currentIndex + 1];
 };
 
 const prevStep = () => {
-  const currentIndex = steps.value.indexOf(currentStep.value);
+  const currentIndex = steps.value.findIndex(step => step.id === currentStep.value.id);
   currentStep.value = steps.value[currentIndex - 1];
 };
 
 const toggleSteps = () => {
   showSteps.value = !showSteps.value;
+};
+
+const toggleBackdrop = () => {
+  currentStep.value = steps.value[0];
+  store.dispatch('backdrop/toggleBackdrop', false);
+};
+
+const handleUpdateDeliveryInfo = (data) => {
+  store.dispatch('checkout/setDeliveryInfo', data);
+};
+
+const handleUpdatePaymentInfo = (data) => {
+  store.dispatch('checkout/setPaymentInfo', data);
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  console.log('submit', checkoutData.value);
 };
 
 // Transition helpers

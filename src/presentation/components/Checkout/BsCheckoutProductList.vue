@@ -17,12 +17,14 @@
       </li>
     </ul>
     <div>
-      <p>Productos 3 Total: $300</p>
+      <p>Cantidad de Productos {{ checkout.quantityProducts }} Total: {{ formatCurrency(checkout.total) }}</p>
     </div>
   </section>
 </template>
 
 <script setup>
+import { useStore } from 'vuex';
+
 defineProps({
   products: {
     type: Array,
@@ -30,4 +32,7 @@ defineProps({
   },
 
 });
+
+const store = useStore();
+const checkout = computed(() => store.state.checkout.checkout);
 </script>
