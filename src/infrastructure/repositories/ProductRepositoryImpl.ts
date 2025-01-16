@@ -6,4 +6,8 @@ export class ProductRepositoryImpl implements ProductRepository {
   async getAllProducts(): Promise<Product[]> {
     return useApi<Product[]>('/products');
   }
+
+  async getProductById(id: string): Promise<Product> {
+    return useApi<Product>(`/products/${id}`);
+  }
 }
