@@ -7,4 +7,11 @@ export interface OrderRepository {
  * @returns A promise that resolves to the created Order entity.
  */
   createOrder(order: CreateOrder): Promise<Order>;
+
+  /**
+   * Check order status
+   * @param orderId - The order to be consulted
+   * @returns A promise that resolves to the Order entity.
+   */
+  checkStatusOrder(orderId: string): Promise<Order>;
 }
