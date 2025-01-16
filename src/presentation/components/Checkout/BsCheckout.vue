@@ -170,6 +170,7 @@
 import { useStore } from 'vuex';
 import { OrderRepositoryImpl } from '~/infrastructure/repositories/OrderRepositoryImpl';
 import { createOrder } from '~/application/use-cases/createOrder';
+import { checkStatusOrder } from '~/application/use-cases/checkStatusOrder';
 import { getOrderCreateData } from '~/utils/getOrderCreateData';
 
 const store = useStore();
@@ -214,20 +215,56 @@ const handleUpdatePaymentInfo = (data) => {
   store.dispatch('checkout/setPaymentInfo', data);
 };
 
+const intervalId = ref(null);
+const pollingOrderStatus = async (order) => {
+  const startTime = Date.now();
+  const maxDuration = 20000;
+  const intervalDuration = 5000;
+
+  intervalId.value = setInterval(async () => {
+    const elapsedTime = Date.now() - startTime;
+
+    if (elapsedTime >= maxDuration) {
+      orderPlaced.value = order;
+      placingOrder.value = false;
+      clearInterval(intervalId.value);
+      return;
+    }
+
+    try {
+      const orderUpdated = await checkStatusOrder(new OrderRepositoryImpl(), order.id);
+      // Check if the response status has changed
+      if (orderUpdated.status !== order.status) {
+        order.status = orderUpdated.status;
+        orderPlaced.value = order;
+        showOrderPlaced.value = true;
+        placingOrder.value = false;
+        clearInterval(intervalId.value);
+      }
+    }
+    catch (error) {
+      console.error(error);
+      clearInterval(intervalId.value);
+    }
+  }, intervalDuration);
+};
+
 const handleSubmit = async (e) => {
   e.preventDefault();
   placingOrder.value = true;
   const formData = getOrderCreateData(checkoutData.value);
   try {
     const newOrder = await createOrder(new OrderRepositoryImpl(), formData);
-    orderPlaced.value = newOrder;
-    showOrderPlaced.value = true;
+
+    if (newOrder.status === 'PENDING') {
+      pollingOrderStatus(newOrder);
+    }
+    else {
+      orderPlaced.value = newOrder;
+    }
   }
   catch (error) {
     console.error(error);
-  }
-  finally {
-    placingOrder.value = false;
   }
 };
 

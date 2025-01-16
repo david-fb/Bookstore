@@ -9,4 +9,8 @@ export class OrderRepositoryImpl implements OrderRepository {
       body: JSON.stringify(order),
     });
   }
+
+  async checkStatusOrder(orderId: string): Promise<Order> {
+    return useApi<Order>(`/transactions/order/${orderId}/status`);
+  }
 }
