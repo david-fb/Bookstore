@@ -1,6 +1,9 @@
 <template>
   <section class="Container__checkout">
-    <div class="Checkout__controls">
+    <div
+      v-if="!showOrderPlaced"
+      class="Checkout__controls"
+    >
       <Transition
         name="height-animation"
         @before-enter="setInitialHeight"
@@ -25,6 +28,7 @@
           </span>
           <button
             aria-label="Volver"
+            :disabled="placingOrder"
             @click="toggleBackdrop"
           >
             <ReturnIcon />
@@ -60,6 +64,7 @@
       </Transition>
     </div>
     <form
+      v-if="!showOrderPlaced"
       class="Checkout"
       @submit="handleSubmit"
     >
@@ -132,6 +137,7 @@
           <button
             type="button"
             class="Checkout__flow__button"
+            :disabled="placingOrder"
             @click="prevStep"
           >
             <LeftArrowIcon
@@ -142,14 +148,21 @@
           <button
             type="submit"
             class="Checkout__submit"
-            :disabled="!checkoutData.paymentInfo.completed"
-            :class="{ 'btn-disabled': !checkoutData.paymentInfo.completed }"
+            :disabled="!checkoutData.paymentInfo.completed || placingOrder"
+            :class="{ 'btn-disabled': !checkoutData.paymentInfo.completed || placingOrder }"
           >
-            Pagar {{ formatCurrency(checkoutData.total) }}
+            <span v-if="!placingOrder">Pagar {{ formatCurrency(checkoutData.total) }}</span>
+            <span v-if="placingOrder">Procesando </span> <LoaderIcon v-if="placingOrder" />
           </button>
         </div>
       </div>
     </form>
+
+    <BsOrderPlaced
+      v-if="showOrderPlaced"
+      :order-data="orderPlaced"
+      @close="handleCloseOrderPlaced"
+    />
   </section>
 </template>
 
@@ -161,14 +174,18 @@ import { getOrderCreateData } from '~/utils/getOrderCreateData';
 
 const store = useStore();
 const checkoutData = computed(() => store.state.checkout.checkout);
+const placingOrder = ref(false);
+
 const steps = computed(() => [
-  { id: 1, title: 'Resumen', disabled: false },
-  { id: 2, title: 'Envío', disabled: !checkoutData.value.deliveryInfo.completed || !checkoutData.value.items.length > 0 },
-  { id: 3, title: 'Pago', disabled: !checkoutData.value.paymentInfo.completed || !checkoutData.value.items.length > 0 },
+  { id: 1, title: 'Resumen', disabled: placingOrder },
+  { id: 2, title: 'Envío', disabled: !checkoutData.value.deliveryInfo.completed || !checkoutData.value.items.length > 0 || placingOrder },
+  { id: 3, title: 'Pago', disabled: !checkoutData.value.paymentInfo.completed || !checkoutData.value.items.length > 0 || placingOrder },
 ]);
 
 const currentStep = ref(steps.value[0]);
 const showSteps = ref(false);
+const showOrderPlaced = ref(false);
+const orderPlaced = ref({});
 
 const nextStep = () => {
   const currentIndex = steps.value.findIndex(step => step.id === currentStep.value.id);
@@ -199,9 +216,26 @@ const handleUpdatePaymentInfo = (data) => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  placingOrder.value = true;
   const formData = getOrderCreateData(checkoutData.value);
-  const newOrder = await createOrder(new OrderRepositoryImpl(), formData);
-  console.log(newOrder);
+  try {
+    const newOrder = await createOrder(new OrderRepositoryImpl(), formData);
+    orderPlaced.value = newOrder;
+    showOrderPlaced.value = true;
+  }
+  catch (error) {
+    console.error(error);
+  }
+  finally {
+    placingOrder.value = false;
+  }
+};
+
+const handleCloseOrderPlaced = async () => {
+  showOrderPlaced.value = false;
+  orderPlaced.value = {};
+  toggleBackdrop();
+  await store.dispatch('product/fetchProducts');
 };
 
 // Transition helpers
