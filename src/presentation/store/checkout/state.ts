@@ -1,4 +1,4 @@
-import type { Checkout } from '#build/imports';
+import type { Checkout } from '~/utils/getCheckoutType';
 
 export interface CheckoutState {
   checkout: Checkout;

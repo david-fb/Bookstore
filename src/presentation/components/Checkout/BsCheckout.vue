@@ -157,7 +157,7 @@
 import { useStore } from 'vuex';
 import { OrderRepositoryImpl } from '~/infrastructure/repositories/OrderRepositoryImpl';
 import { createOrder } from '~/application/use-cases/createOrder';
-import { getOrderCreateData } from '#build/imports';
+import { getOrderCreateData } from '~/utils/getOrderCreateData';
 
 const store = useStore();
 const checkoutData = computed(() => store.state.checkout.checkout);

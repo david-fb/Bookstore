@@ -4,7 +4,10 @@
     class="productList"
     aria-label="Product List"
   >
-    <ul class="productList__list">
+    <ul
+      v-if="products.length"
+      class="productList__list"
+    >
       <li
         v-for="product in products"
         :key="product.id"
@@ -13,6 +16,12 @@
         <BsProductCard :product="product" />
       </li>
     </ul>
+    <div
+      v-else
+      class="productList__empty"
+    >
+      <p>No hay productos disponibles en este momento</p>
+    </div>
   </section>
 </template>
 
