@@ -155,6 +155,9 @@
 
 <script setup>
 import { useStore } from 'vuex';
+import { OrderRepositoryImpl } from '~/infrastructure/repositories/OrderRepositoryImpl';
+import { createOrder } from '~/application/use-cases/createOrder';
+import { getOrderCreateData } from '#build/imports';
 
 const store = useStore();
 const checkoutData = computed(() => store.state.checkout.checkout);
@@ -194,9 +197,11 @@ const handleUpdatePaymentInfo = (data) => {
   store.dispatch('checkout/setPaymentInfo', data);
 };
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
-  console.log('submit', checkoutData.value);
+  const formData = getOrderCreateData(checkoutData.value);
+  const newOrder = await createOrder(new OrderRepositoryImpl(), formData);
+  console.log(newOrder);
 };
 
 // Transition helpers
