@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
+    '@nuxt/test-utils/module',
   ],
   plugins: [
     '~/presentation/plugins/v-mask.ts',
