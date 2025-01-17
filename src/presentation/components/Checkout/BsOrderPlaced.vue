@@ -19,12 +19,12 @@
       <p><span class="OrderPlaced_subtitle">Estado:</span> {{ orderData.status }}</p>
       <br>
       <p><span class="OrderPlaced_subtitle">Información de envío:</span></p>
-      <p><span class="OrderPlaced_subtitle">Nombre:</span> {{ orderData.name }}</p>
-      <p><span class="OrderPlaced_subtitle">Dirección:</span> {{ orderData.address }}</p>
-      <p><span class="OrderPlaced_subtitle">Ciudad:</span> {{ orderData.city }}</p>
-      <p><span class="OrderPlaced_subtitle">Departamento:</span> {{ orderData.department }}</p>
-      <p><span class="OrderPlaced_subtitle">Número de contacto:</span> {{ orderData.contactNumber }}</p>
-      <p><span class="OrderPlaced_subtitle">Correo electrónico:</span> {{ orderData.email }}</p>
+      <p><span class="OrderPlaced_subtitle">Nombre:</span> {{ orderData.customer.name }}</p>
+      <p><span class="OrderPlaced_subtitle">Dirección:</span> {{ orderData.customer.address }}</p>
+      <p><span class="OrderPlaced_subtitle">Ciudad:</span> {{ orderData.customer.city }}</p>
+      <p><span class="OrderPlaced_subtitle">Departamento:</span> {{ orderData.customer.department }}</p>
+      <p><span class="OrderPlaced_subtitle">Número de contacto:</span> {{ orderData.customer.contactNumber }}</p>
+      <p><span class="OrderPlaced_subtitle">Correo electrónico:</span> {{ orderData.customer.email }}</p>
       <br>
       <p><span class="OrderPlaced_subtitle">Total:</span> {{ formatCurrency(orderData.totalAmount) }}</p>
       <p><span class="OrderPlaced_subtitle">Productos:</span></p>
