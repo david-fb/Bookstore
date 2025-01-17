@@ -273,6 +273,7 @@ const handleCloseOrderPlaced = async () => {
   orderPlaced.value = {};
   toggleBackdrop();
   await store.dispatch('product/fetchProducts');
+  store.dispatch('checkout/setItems', []);
 };
 
 // Transition helpers
