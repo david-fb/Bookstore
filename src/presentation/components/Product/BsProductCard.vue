@@ -41,6 +41,7 @@
       <button
         class="ProductCard-btn ProductCard__actions-addBtn"
         aria-label="Agregar al carrito"
+        @click="addToCart"
       >
         <CartPlusIcon
           width="24"
@@ -71,6 +72,10 @@ const toggleBackdrop = () => store.dispatch('backdrop/toggleBackdrop');
 const handleBuyNow = () => {
   store.dispatch('checkout/setItems', [{ ...props.product, quantity: 1 }]);
   toggleBackdrop();
+};
+
+const addToCart = () => {
+  store.dispatch('cart/addItem', [{ ...props.product, quantity: 1 }]);
 };
 
 const handleImageError = () => {
