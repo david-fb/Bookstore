@@ -30,6 +30,7 @@ export default defineNuxtConfig({
     '@components': '~/presentation/components',
     '@assets': '~/presentation/assets',
   },
+  experimental: { appManifest: false },
   compatibilityDate: '2024-11-01',
   eslint: {
     config: {
