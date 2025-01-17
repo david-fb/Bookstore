@@ -11,6 +11,6 @@ export class OrderRepositoryImpl implements OrderRepository {
   }
 
   async checkStatusOrder(orderId: string): Promise<Order> {
-    return useApi<Order>(`/transactions/order/${orderId}/status`);
+    return useApi<Order>(`/orders/${orderId}/continue`);
   }
 }
