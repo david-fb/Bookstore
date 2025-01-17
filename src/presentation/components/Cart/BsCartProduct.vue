@@ -1,11 +1,11 @@
 <template>
   <div class="checkoutProductCard">
     <div class="checkoutProductCard__imageContainer">
-      <!-- <img
+      <img
         :src="product?.image_url"
         :alt="product?.title"
         class="checkoutProductCard__image"
-      > -->
+      >
       <button
         class="checkoutProductCard__removeButton"
         aria-label="Quitar producto"
