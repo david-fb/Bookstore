@@ -1,75 +1,58 @@
-# Nuxt Minimal Starter
+# Bookstore
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+![Bookstore Page](https://raw.githubusercontent.com/david-fb/Bookstore/refs/heads/main/public/page.webp)
 
-## Setup
+## 📋 Description
+This repository contains a simple online store built with Nuxt.js, designed for users to complete purchases without the need for registration. The project integrates a payment gateway for secure transactions. Ideal for small businesses or as a foundation for e-commerce projects.
 
-Make sure to install dependencies:
+## 🚀 Project Structure
 
+### Frontend (Nuxt)
+```
+src/
+├── application/    # Application layer - Use cases and application logic
+├── composables/    # Vue composables for reusable stateful logic
+├── domain/        # Domain layer - Business rules and entities
+├── infrastructure/# Infrastructure layer - External services and implementations
+└── presentation/  # Presentation layer - UI components and views        
+```
+
+## 🛠️ Technologies
+
+### Frontend
+- Nuxt.js v3.15.1
+- Vue.js v3
+
+## ⚙️ Requisitos Previos
+- Node.js (v18 o superior)
+- npm
+
+## 🚀 Instalación y Configuración
+
+### Frontend (Nuxt)
 ```bash
-# npm
+# Install dependencies
 npm install
 
-# pnpm
-pnpm install
+# Setting environment variables
+cp .env.example .env
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
+# Start in development mode
 npm run dev
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
+# Build for production
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+## 🔧 Setting up the Environment (.env)
+```env
+NUXT_PUBLIC_API_BASE=http://localhost:8000/api/v1
+```
 
+## 🧪 Test
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+# Running tests
+npx vitest
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+![Front test](https://raw.githubusercontent.com/david-fb/Bookstore/refs/heads/main/public/front.png)
