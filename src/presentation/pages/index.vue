@@ -5,6 +5,7 @@
     </BsBackdrop>
     <BsHero />
     <BsProductList :products="products" />
+    <BsCart v-if="cartOpen" />
   </div>
 </template>
 
@@ -15,6 +16,7 @@ const store = useStore();
 
 const isVisible = computed(() => store.state.backdrop.isVisible);
 const products = computed(() => store.state.product.products);
+const cartOpen = computed(() => store.state.cart.cart.open);
 
 onMounted(async () => {
   await store.dispatch('product/fetchProducts');

@@ -1,5 +1,6 @@
 <template>
   <div class="hero">
+    <BsCartButton />
     <div class="hero__content">
       <h1 class="hero__title">
         Encuentra el mejor libro para ti
