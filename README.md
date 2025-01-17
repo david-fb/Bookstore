@@ -23,13 +23,12 @@ src/
 - Nuxt.js v3.15.1
 - Vue.js v3
 
-## ⚙️ Requisitos Previos
+## ⚙️ Prerequisites
 - Node.js (v18 o superior)
 - npm
 
-## 🚀 Instalación y Configuración
+## 🚀 Installation and Configuration
 
-### Frontend (Nuxt)
 ```bash
 # Install dependencies
 npm install
